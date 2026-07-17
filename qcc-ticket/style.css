@@ -1,0 +1,1139 @@
+/* =========================================================
+   KIAMI - SISTEMA DE DESIGN MODERNO (VARIÁVEIS GLOBAIS)
+   Quality Contact Center — plataforma de gestão de tickets
+   ========================================================= */
+:root {
+    --bg-main: #0b0e16;       /* Fundo ultra escuro */
+    --bg-sidebar: #121620;    /* Fundo do menu lateral */
+    --bg-card: #1a1f2e;       /* Fundo dos cartões e caixas */
+    --bg-input: #232a3b;      /* Fundo de inputs e tabelas */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(61, 111, 255, 0.4);
+    
+    --text-primary: #eef1f8;
+    --text-secondary: #9ba3b8;
+    --text-muted: #5c6478;
+    
+    --accent: #3d6fff;        /* Azul Quality */
+    --accent-hover: #2854cc;
+    --accent-2: #7c3aed;      /* Roxo para gradientes */
+    --gradient: linear-gradient(135deg, #3d6fff 0%, #7c3aed 100%);
+    --gradient-soft: linear-gradient(135deg, rgba(61,111,255,0.15) 0%, rgba(124,58,237,0.15) 100%);
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    
+    --radius-lg: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+    --transition: all 0.2s ease-in-out;
+}
+
+/* =========================================================
+   RESETS E CONFIGURAÇÕES GLOBAIS
+   ========================================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    background-image:
+        radial-gradient(circle at 12% 15%, rgba(61, 111, 255, 0.08), transparent 40%),
+        radial-gradient(circle at 88% 85%, rgba(124, 58, 237, 0.08), transparent 42%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+body.app-body {
+    display: flex;
+}
+
+/* Páginas de autenticação (login, alterar senha) */
+body.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    /* Fundo do login: gradientes suaves da paleta Quality (sem depender de imagem externa) */
+    background-image:
+        radial-gradient(circle at 18% 22%, rgba(61, 111, 255, 0.28), transparent 45%),
+        radial-gradient(circle at 82% 78%, rgba(124, 58, 237, 0.30), transparent 50%),
+        linear-gradient(135deg, #0b0e16 0%, #141a2b 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    background: rgba(30, 35, 48, 0.92);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    color: #fff;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.auth-card h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.auth-card .auth-subtitle {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.auth-btn:hover {
+    background: var(--accent-hover);
+}
+
+.auth-alert {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.auth-alert-erro { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+.auth-alert-aviso { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.auth-alert-sucesso { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.auth-links a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.auth-links span {
+    color: #64748b;
+}
+
+/* =========================================================
+   LAYOUT STRUTURAL (MULTI-PÁGINAS)
+   ========================================================= */
+.app-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* SIDEBAR REESTRUTURADO E FIXADO À ESQUERDA */
+#sidebar {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    height: 100vh;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Tabelas: scroll horizontal em contentores */
+.card,
+.tabela-scroll {
+    max-width: 100%;
+}
+
+.card > table,
+.card .dataTables_wrapper,
+.tabela-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card {
+    overflow-x: auto;
+}
+
+.card table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+}
+
+/* Barra superior mobile (criada por tema.js) */
+.mobile-topbar {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin: -40px -40px 24px -40px;
+    background: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.mobile-topbar-brand {
+    font-size: 18px;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.4px;
+}
+
+.mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn:hover,
+.mobile-menu-btn:focus-visible {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 95;
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.visivel {
+    display: block;
+    opacity: 1;
+}
+
+.sidebar-close-btn {
+    display: none;
+    align-self: flex-end;
+    margin: -8px 0 8px auto;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.sidebar-brand {
+    padding: 0 12px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.sidebar-brand h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar-brand span {
+    color: var(--accent);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 0 12px;
+    margin: 16px 0 8px 0;
+}
+
+/* LINKS DO MENU LATERAL */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    transition: var(--transition);
+}
+
+/* Subcategoria (ex.: Utilizadores sob Gestão de Perfis) */
+.nav-item.nav-sub {
+    padding: 9px 14px 9px 28px;
+    margin-left: 12px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    border-left: 2px solid var(--border);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    color: var(--text-muted);
+}
+
+.nav-item.nav-sub:hover {
+    border-left-color: var(--accent);
+}
+
+.nav-item.nav-sub.active {
+    border-left-color: transparent;
+}
+
+.nav-item span {
+    margin-left: 10px;
+}
+
+.nav-item:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.nav-item.active {
+    background: var(--gradient);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(61, 111, 255, 0.35);
+}
+
+/* RODAPÉ DO MENU */
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.user-badge {
+    padding: 12px;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+}
+
+/* ÁREA DE CONTEÚDO PRINCIPAL (COM COMPENSAÇÃO DE MARGEM) */
+#main-content {
+    flex: 1;
+    margin-left: 260px; /* Alinhamento rígido com a largura do menu lateral */
+    padding: 40px;
+    background-color: var(--bg-main);
+    min-height: 100vh;
+}
+
+.page-header {
+    margin-bottom: 32px;
+}
+
+.page-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.page-header h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--gradient);
+}
+
+.page-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* =========================================================
+   COMPONENTES VISUAIS INTERNOS (CARDS, GRIDS, BOTÕES)
+   ========================================================= */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: var(--border-hover);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient);
+    opacity: 0.85;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+}
+
+.stat-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.stat-card .value {
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.sidebar-footer .btn-danger {
+    margin-top: 10px;
+}
+
+.btn-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+    transition: var(--transition);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    color: #fff;
+}
+
+/* =========================================================
+   MELHORIAS VISUAIS ADICIONAIS (BOTÕES, TABELAS, ANIMAÇÕES)
+   ========================================================= */
+
+/* Cartões e conteúdo surgem com animação suave */
+#main-content .card,
+#main-content .stats-grid {
+    animation: fadeInUp 0.4s ease both;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Botão primário reutilizável com gradiente */
+.btn-primary {
+    display: inline-block;
+    padding: 11px 22px;
+    background: var(--gradient);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px rgba(61, 111, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(61, 111, 255, 0.45);
+}
+
+/* Tabelas dentro de cartões: linhas com destaque ao passar o rato */
+.card table tbody tr {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.card table tbody tr:hover {
+    background-color: rgba(61, 111, 255, 0.06) !important;
+}
+
+/* Distintivos de estado reutilizáveis */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.badge-aberto     { color: #60a5fa; background: rgba(59,130,246,0.12); }
+.badge-progresso  { color: var(--amber); background: rgba(245,158,11,0.12); }
+.badge-resolvido  { color: var(--green); background: rgba(34,197,94,0.12); }
+.badge-reencaminhado { color: var(--accent-2); background: rgba(124,58,237,0.14); }
+
+/* Inputs, selects e textareas com foco realçado */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(61, 111, 255, 0.15);
+}
+
+/* Opções de todos os selects legíveis no tema escuro */
+select option {
+    background: var(--bg-sidebar);
+    color: var(--text-primary);
+}
+
+/* Barra de deslocamento personalizada */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+::-webkit-scrollbar-thumb { background: #2b3245; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* =========================================================
+   CONTROLOS DO DATATABLES (tornar texto e campos visíveis)
+   O "Show ... entries", pesquisa, info e paginação ficavam
+   com texto escuro sobre fundo escuro. Aqui garantimos contraste.
+   ========================================================= */
+.dataTables_wrapper {
+    color: var(--text-secondary);
+    padding: 16px 18px;
+}
+
+/* Rótulos "Mostrar / Pesquisar" */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--text-secondary) !important;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+/* Caixa do "Show" (nº de entradas) e campo de pesquisa */
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    background: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    margin: 0 6px;
+}
+
+/* As opções do dropdown também precisam de fundo/texto legíveis */
+.dataTables_wrapper .dataTables_length select option {
+    background: var(--bg-sidebar);
+    color: var(--text-primary);
+}
+
+.dataTables_wrapper .dataTables_filter input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Botões de paginação */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--text-secondary) !important;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 5px 11px !important;
+    margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #fff !important;
+    background: var(--accent) !important;
+    border-color: var(--accent);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: var(--text-muted) !important;
+    opacity: 0.5;
+}
+
+/* Cabeçalho das tabelas DataTables */
+table.dataTable thead th {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+}
+
+/* =========================================================
+   BARRA DE ROLAGEM VERTICAL NAS LISTAGENS DE TICKETS
+   Aplica altura máxima com scroll vertical às tabelas longas.
+   ========================================================= */
+.tabela-scroll {
+    max-height: 62vh;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* Cabeçalho fixo enquanto se faz scroll vertical na lista */
+.tabela-scroll table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg-sidebar);
+}
+
+/* Corpo com scroll do DataTables (scrollY) */
+.dataTables_scrollBody {
+    overflow-y: auto !important;
+    border-bottom: 1px solid var(--border);
+}
+
+.dataTables_scrollHead {
+    background: var(--bg-sidebar);
+}
+
+/* Botão de submissão genérico (qualquer <button> dentro de cartões) recebe brilho no hover */
+.card button[type="submit"]:hover {
+    filter: brightness(1.08);
+}
+
+/* =========================================================
+   RESPONSIVIDADE — tablet e telemóvel
+   ========================================================= */
+@media (max-width: 1024px) {
+    #main-content {
+        padding: 28px 22px;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .stat-card .value {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 900px) {
+    /* Menu lateral desliza de fora do ecrã */
+    #sidebar {
+        width: min(300px, 86vw);
+        min-width: min(300px, 86vw);
+        max-width: min(300px, 86vw);
+        transform: translateX(-105%);
+        box-shadow: none;
+        z-index: 110;
+    }
+
+    body.sidebar-aberta #sidebar {
+        transform: translateX(0);
+        box-shadow: 8px 0 32px rgba(0, 0, 0, 0.45);
+    }
+
+    body.sidebar-aberta {
+        overflow: hidden;
+    }
+
+    .sidebar-close-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #main-content {
+        margin-left: 0;
+        padding: 16px;
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    .mobile-topbar {
+        display: flex;
+        margin: -16px -16px 18px -16px;
+    }
+
+    .page-header {
+        margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .page-header p {
+        font-size: 13px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-card .value {
+        font-size: 24px;
+    }
+
+    .stat-card .label {
+        font-size: 10px;
+    }
+
+    /* Grelhas inline das páginas passam a coluna única */
+    #main-content [style*="grid-template-columns"],
+    #main-content [style*="display: grid"],
+    #main-content [style*="display:grid"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    #main-content [style*="display: flex"][style*="gap"],
+    #main-content [style*="display:flex"][style*="gap"] {
+        flex-wrap: wrap;
+    }
+
+    /* Formulários em grelha (gestão de utilizadores, etc.) */
+    form[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        align-items: stretch !important;
+    }
+
+    form[style*="grid-template-columns"] > div[style*="grid-column"] {
+        grid-column: 1 / -1 !important;
+    }
+
+    /* DataTables: controlos empilhados */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        float: none !important;
+        text-align: left !important;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        width: calc(100% - 90px);
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 6px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 4px;
+    }
+
+    .theme-toggle {
+        bottom: 14px;
+        right: 14px;
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .kiami-toasts {
+        top: 12px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+        width: auto;
+    }
+
+    /* Canvas dos gráficos */
+    #main-content canvas {
+        max-height: 260px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header h1 {
+        font-size: 20px;
+    }
+
+    .auth-card {
+        padding: 22px 16px;
+    }
+
+    .mobile-topbar-brand {
+        font-size: 16px;
+    }
+
+    .card table {
+        min-width: 480px;
+        font-size: 12px;
+    }
+
+    .theme-toggle {
+        /* Só ícone implícito: texto mais curto no JS em ecrãs muito pequenos */
+        max-width: calc(100vw - 28px);
+    }
+
+    body.auth-page {
+        padding: 12px;
+        background-attachment: scroll;
+    }
+}
+
+/* Preferência de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================================
+   POP-UPS DE NOTIFICAÇÃO NO NAVEGADOR (TOASTS)
+   ========================================================= */
+.kiami-toasts {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 340px;
+    width: calc(100% - 40px);
+    pointer-events: none;
+}
+
+.kiami-toast {
+    pointer-events: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    padding: 14px 16px;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.kiami-toast.visivel {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.kiami-toast-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.kiami-toast-head strong {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kiami-toast-close {
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 2px;
+}
+
+.kiami-toast-close:hover {
+    color: var(--text-primary);
+}
+
+.kiami-toast-body {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   BOTÃO FLUTUANTE DE ALTERNÂNCIA DE TEMA
+   (criado dinamicamente por tema.js)
+   ========================================================= */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.theme-toggle:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   MODO CLARO (data-theme="light" no elemento <html>)
+   Substitui as variáveis globais por uma paleta clara.
+   ========================================================= */
+html[data-theme="light"] {
+    --bg-main: #eef1f7;        /* Fundo claro */
+    --bg-sidebar: #ffffff;     /* Menu lateral branco */
+    --bg-card: #ffffff;        /* Cartões brancos */
+    --bg-input: #f3f5fa;       /* Inputs e tabelas */
+    --border: rgba(15, 23, 42, 0.10);
+    --border-hover: rgba(61, 111, 255, 0.45);
+
+    --text-primary: #182033;
+    --text-secondary: #4a5468;
+    --text-muted: #8a91a3;
+
+    --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.14);
+}
+
+/* Fundo suave da aplicação no modo claro */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(circle at 12% 15%, rgba(61, 111, 255, 0.06), transparent 40%),
+        radial-gradient(circle at 88% 85%, rgba(124, 58, 237, 0.06), transparent 42%);
+}
+
+/* O logótipo (texto KIAMI com gradiente) permanece visível no modo claro */
+html[data-theme="light"] .sidebar-brand h3 {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Inputs/selects/textareas que fixavam texto branco passam a texto escuro */
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+    color: var(--text-primary) !important;
+}
+
+/* Títulos de cartões que usavam branco fixo passam a texto escuro legível */
+html[data-theme="light"] .card h3[style*="#fff"],
+html[data-theme="light"] .card h3[style*="color: #fff"] {
+    color: var(--text-primary) !important;
+}
+
+/* Sombra subtil na barra lateral para separar do conteúdo */
+html[data-theme="light"] #sidebar {
+    box-shadow: 2px 0 12px rgba(15, 23, 42, 0.06);
+}
+
+/* As páginas de autenticação mantêm o cartão escuro sobre a imagem de fundo */
+html[data-theme="light"] body.auth-page {
+    --bg-input: #232a3b;
+    --border: rgba(255, 255, 255, 0.08);
+    --text-primary: #eef1f8;
+    --text-secondary: #9ba3b8;
+    --text-muted: #5c6478;
+}
+
+/* Badge de notificações pendentes na barra lateral */
+.notif-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    animation: notifPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes notifPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+    50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+/* Chips de múltiplos assuntos na abertura de tickets */
+.assunto-chip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.assunto-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+}
+
+.assunto-chip-texto {
+    flex: 1;
+    color: var(--text-primary);
+    word-break: break-word;
+}
+
+.assunto-chip-remover {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--red);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.assunto-chip-remover:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+.btn-assunto-add:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
